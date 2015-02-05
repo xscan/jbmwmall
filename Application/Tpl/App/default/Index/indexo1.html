@@ -1,0 +1,466 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>微商城</title>
+    <!--
+  <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+  <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+  <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+-->
+<style type="text/css">
+    #mask{
+    background: #ccc;
+    opacity: 0.9;
+    filter:alpha(opacity=90);
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 1000;
+}
+#mask>#img{
+    margin-left: 3%;
+    margin-top:30%;
+    text-align: center;
+}
+</style>
+    <link rel="stylesheet" href="__PUBLIC__/jqm/jquery.mobile-1.4.5.min.css" />
+
+    <script src="__PUBLIC__/jqm/jquery-1.10.1.min.js"></script>
+    <script src="__PUBLIC__/jqm/jquery.mobile-1.4.5.min.js"></script>
+</head>
+
+<body>
+
+    <div id="page-1" data-role="page" data-theme="b">
+
+        <div data-role="header">
+            <h1>欢迎来到我的主页</h1>
+            <div class="ui-btn-right">
+                <select name="select-custom-11" id="select-custom-11" data-native-menu="false" onchange="showProducts(this.value)">
+                
+                    <option value="">菜单</option>
+                    <volist name="menu" id="menuid">
+                    
+                        <option value="{$menuid.id}">{$menuid.name}</option>
+                    </volist>
+                    <option value="999" onclick="showall()">所有产品</option>
+                    </select>
+            </div>
+
+            <!-- <a href="#" data-role="button" class="ui-btn-right" data-icon="grid">菜单</a> -->
+            <!--         <div class="menu_header">
+            <div class="menu_topbar">
+                <div id="menu" class="sort sort_on">
+                    <a href="">{$info.name}</a>
+                    <ul>
+                        <volist name="menu" id="menuid">
+                            <li><a href="javascript:showProducts('{$menuid.id}')">{$menuid.name}</a></li>
+                        </volist>
+                        <li><a href="javascript:showAll()">所有商品</a></li>
+                    </ul>
+                </div>
+                <a class="head_btn_right" href="javascript:showMenu();"><i
+                    class="menu_header_home"></i> </a>
+            </div>
+        </div> -->
+        </div>
+        <div data-role="content" class="ui-mini">
+            公告：{$info.notification}
+            <ul data-role="listview" data-filter="true" data-filter-placeholder="输入产品信息查询产品" data-goods="list">
+                <volist name="goods" id="goodsvo">
+                    <li menu="{$goodsvo.menu_id}">
+                        <a onclick="javascript:doalert('__PUBLIC__/Uploads/{$goodsvo.image}','{$goodsvo.name}')" data-theme="b" data-inline="true">
+                        <!-- <a onclick="javascript:openmask()" data-theme="b" data-inline="true"></a> -->
+                       
+                            <img src="__PUBLIC__/Uploads/{$goodsvo.image}">
+                            <h2>{$goodsvo.name}</h2>
+                            <!-- <p><strong>1200元/份</strong></p> -->
+                            <p>{$goodsvo.price}元/份</p>
+                        </a>
+                        <a href="#" data-uid="getinfo" goods-title="{$goodsvo.name}" goods-price="{$goodsvo.price}" data-rel="dialog" data-transition="pop"></a>
+
+                    </li>
+                </volist>
+            </ul>
+
+        </div>
+       
+
+
+        <div id="alert">
+
+        </div>
+        <!--  <div data-role="popup" id="popup" class="photopopup" data-overlay-theme="a" data-corners="false" data-tolerance="30,15">
+            <a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right"> Close</a> <img src="http://www.ibm.com/developerworks/cn/web/wa-jqmobile/fig01.jpg" alt="Photo landscape">
+            <p>详情</p>
+        </div> -->
+
+        <div data-role="footer" data-position="fixed">
+            <div data-role="navbar">
+                <ul>
+                    <li><a href="#page-1" data-role="tab" data-icon="grid" class="ui-btn-active ui-state-perhome" data-uid="home">主页</a>
+                    </li>
+                    <li><a href="#page-2" data-role="tab" data-icon="grid" data-uid='pay'>购物车</a>
+                    </li>
+                    <li><a href="#page-3" data-role="tab" data-icon="grid" data-uid="order">我的</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="page-2" data-role="page" class="ui-mini" data-theme="b">
+
+        <div data-role="header">
+            <h1>我的购物车</h1>
+        </div>
+        <div data-role="content">
+            <div class="ui-field-contain">
+                <ul data-role="listview">
+                    <li data-role="list-divider">已选购的</li>
+                    <li data-list="list">
+
+                    </li>
+                </ul>
+            </div>
+            <br />
+            <div class="ui-field-contain">
+                <ul data-role="listview">
+                    <li data-role="list-divider">购物车总计</li>
+                    <li data-list="sumlist">
+
+                    </li>
+                </ul>
+            </div>
+
+            <div class="ui-grid-a">
+                <div class="ui-block-a"><a href="#page-1" class="ui-btn">选购</a>
+                </div>
+
+                <div class="ui-block-b"><a href="#" class="ui-btn" data-clera="clera">清空</a>
+                </div>
+            </div>
+            <div class="ui-field-contain">
+                <label for="user">联系人:</label>
+                <input type="text" name="user" id="user" data-clear-btn="true">
+            </div>
+            <div class="ui-field-contain">
+                <label for="tel">联系电话:</label>
+                <input type="text" name="tel" id="tel" data-clear-btn="true">
+            </div>
+            <div class="ui-field-contain">
+                <label for="pay">付款方式:</label>
+                <select name="pay" id="pay">
+                    <option value="0">货到付款</option>
+                    <option value="1">支付宝在线付款</option>
+                </select>
+            </div>
+            <div class="ui-field-contain">
+                <label for="address">地址:</label>
+                <textarea name="address" id="address" type="text" cols="40" row="3"></textarea>
+            </div>
+            <div class="ui-field-contain">
+                <label for="reg">备注:</label>
+                <textarea name="reg" id="reg" cols="30" rows="10" type="text"></textarea>
+            </div>
+            <button data-uid="sub" class="ui-btn">提交</button>
+
+        </div>
+
+
+        <div data-role="footer" data-position="fixed">
+            <div data-role="navbar">
+                <ul>
+                    <li><a href="#page-1" data-role="tab" data-icon="home" data-uid="home">主页</a>
+                    </li>
+                    <li><a href="#page-2" data-role="tab" data-icon="grid" class="ui-btn-active ui-state-persist" data-uid='pay'>购物车</a>
+                    </li>
+                    <li><a href="#page-3" data-role="tab" data-icon="grid" data-uid="order">我的</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="page-3" data-role="page" class="ui-mini" data-theme="b">
+
+        <div data-role="header">
+            <h1>我的订单</h1>
+        </div>
+        <div data-role="content">
+            <ul data-role="listview" class="ui-mini" data-filter="true" data-filter-placeholder="搜索订单编号查询订单..." id='orderlistinsert'>
+                <!-- <li>
+                    <div data-role="collapsible" data-collapsed-icon="carat-d" data-expanded-icon="carat-u">
+                        <h4>订单编号：12203</h4>
+                        <dd>订单金额：1000元</dd>
+                        <dd>发货状态：已发货</dd>
+                        <dd>支付状态：已支付</dd>
+                    </div>
+                </li> -->
+            </ul>
+        </div>
+
+        <div data-role="footer" data-position="fixed">
+            <div data-role="navbar">
+                <ul>
+                    <li><a href="#page-1" data-role="tab" data-icon="home" data-uid="home">主页</a>
+                    </li>
+                    <li><a href="#page-2" data-role="tab" data-icon="grid" data-uid='pay'>购物车</a>
+                    </li>
+                    <li><a href="#page-3" data-role="tab" data-icon="grid" class="ui-btn-active ui-state-persist" data-uid="order">我的</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript">
+var i = 0;
+var sum = 0;
+$("a[data-role=tab]").each(function() {
+    var anchor = $(this);
+    anchor.on("click", function() {
+        $.mobile.changePage(anchor.attr("href"), {
+            transition: "none",
+            changeHash: false
+        });
+        return false;
+    });
+});
+
+$("div[data-role=page]").on("pagebeforeshow", function(e, data) {
+    $.mobile.silentScroll(0);
+    $.mobile.changePage.defaults.transition = 'slide';
+});
+
+$('[data-uid=home]').on('click', function() {
+    // alert(this);
+})
+$('[data-uid=pay]').on('click', function() {
+    // alert(this);
+})
+
+$('[data-uid=order]').on('click', function() {
+    console.log("{:U('/App/Index/getorders')}")
+    $.ajax({
+        type: 'POST',
+        url: "{:U('/App/Index/getorders')}",
+        data: {
+            uid: 1
+        },
+        success: function(response) {
+            if (response) {
+                var json = eval(response);
+                var html = '';
+                var order_status = '';
+
+                $.each(json, function(index, value) {
+                    var pay = '';
+                    var order = '';
+                    if (value.order_status == '0') {
+                        order_status = 'no';
+                        order = '未发货';
+                    } else if (value.order_status == '1') {
+                        order_status = 'ok';
+                        order = '已发货';
+                    }
+
+                    if (value.pay_status == '0') {
+                        pay_status = 'no';
+                        pay = '未支付';
+                    } else if (value.pay_status == '1') {
+                        pay_status = 'ok';
+                        pay = '已支付';
+                    }
+                    html += '<li><div data-role="collapsible" data-collapsed-icon="carat-d" data-expanded-icon="carat-u"><h4>订单编号：' + value.orderid + '</h4><dd>订单金额：' + value.totalprice + '</dd><dd>发货状态：' + pay + '</dd><dd>支付状态：' + pay + '</dd></div> </li>';
+                    // html += '<tr><td>'+value.orderid+'</td><td class="cc">'+value.totalprice+'元</td><td class="cc"><em class="'+pay_status+'">'+pay+'</em></td><td class="cc"><em class="'+order_status+'">'+order+'</em></td></tr>';
+                });
+                $('#orderlistinsert').empty();
+                $('#orderlistinsert').append(html).trigger('create');
+                // $('#orderlistinsert').listview();               
+
+            }
+
+        },
+        beforeSend: function() {
+            $('#page_tag_load').show();
+        },
+        complete: function() {
+            $('#page_tag_load').hide();
+            // $("#orderlistinsert").listview(); 
+        }
+    });
+})
+
+$('[data-uid=sub]').on('click', function() {
+    var user = $('#user').val()
+    var tel = $('#tel').val()
+    var pay = $('#pay').val()
+    var address = $('#address').val()
+    var reg = $('#reg').val()
+    var orderprice = $('[data-order=order]').attr('order-price')
+    if (user == '') {
+        alert('请填写联系人')
+        return
+    }
+    if (tel == '') {
+        alert('请填写手机号码')
+        return
+    }
+    if (address == '') {
+        alert('请填写联系地址')
+        return
+    }
+
+    if (orderprice == null) {
+        alert('请选择产品')
+        return
+    }
+
+    var userinfo = new Array();
+    // userinfo[0][0] = 'name';
+    userinfo[0] = user;
+    //  userinfo[1][0] = 'phone';
+    userinfo[1] = tel;
+    //   userinfo[2][0] = 'pay';
+    userinfo[2] = pay;
+    //  userinfo[3][0] = 'address';
+    userinfo[3] = address;
+    //  userinfo[4][0] = 'note';
+    userinfo[4] = reg;
+    //console.log(userData[0][0])
+    var json = '';
+    $('[data-list=list] li>a').each(function() {
+        var name = $(this).attr('goods-title');
+        var num = $(this).attr('goods-count');
+        var price = $(this).attr('goods-price');
+        json += '{"name":"' + name + '","num":"' + num + '","price":"' + price + '"},';
+
+    });
+    json = json.substring(0, json.length - 1);
+    json = '[' + json + ']';
+    $.ajax({
+            url: "{:U('App/Index/addorder')}",
+            type: 'POST',
+            data: {
+                uid: 1,
+                cartData: json,
+                userData: userinfo,
+                totalPrice: orderprice
+            }
+        })
+        .done(function() {
+            alert('成功提交订单')
+        })
+        .fail(function() {
+            //console.log("error");
+            alert('提交订单失败')
+        })
+        .always(function() {
+            //console.log("complete");
+            $('[data-uid=order]').click()
+        });
+
+})
+
+$('[data-uid=getinfo]').on('click', function() {
+    var title = $(this).attr('goods-title')
+    var price = $(this).attr('goods-price')
+    console.log(title + "\n" + price)
+    $('[data-uid=pay]').click()
+    $('[data-list=list]').append('<li><a href="#" class="ui-btn ui-btn-icon-right ui-icon-carat-r" goods-title=' + title + ' goods-price=' + price + ' goods-count="1">名称:' + title + ' 价格:' + price + '</a></li>')
+
+    // })
+    // $('[data-list=list]').each(function(){
+    //   console.log( $(this).attr('goods-price'))
+    // })
+    sum = sum + parseInt(price);
+    i = i + 1;
+    $('[data-list=sumlist]').html('<li><a data-order="order" order-num=' + i + ' order-price=' + sum + ' href="#" class="ui-btn ui-btn-icon-right ui-icon-carat-r">选购数量:' + i + ' 总价:' + sum + '</a></li>')
+})
+
+$('[data-clera=clera]').click(function() {
+    $('[data-list=list]').html('');
+    $('[data-list=sumlist]').html('');
+    i = 0;
+    sum = 0;
+})
+
+// $('[data-goods=list]').append().trigger('create')
+function showProducts(id) {
+    console.log(typeof id)
+    if (id === '999') {
+        $('[data-goods=list]>li').each(function() {
+            $(this).show();
+        });
+    } else {
+        $('[data-goods=list]>li').each(function() {
+
+            if ($(this).attr("menu") == id) {
+                $(this).show();
+            } else {
+                $(this).hide();
+            }
+        });
+    }
+}
+
+function doalert(imgurl, reg) {
+    htm = "";
+    htm += '<div data-role="popup" id="' + reg + '" class="photopopup" data-overlay-theme="a" data-corners="false" data-tolerance="30,15"><a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right"> Close</a> <img src="' + imgurl + '" alt="Photo landscape"><p>' + reg + '</p></div>';
+
+    $('#alert').html('');
+    $('#alert').html(htm).trigger('create')
+       var maxHeight = $( window ).height() - 60 + "px";
+        var maxWidth = $( window ).width() - 60 + "px";
+          $( ".photopopup img" ).css( "max-height", maxHeight );
+    $('#' + reg).popup('open')
+}
+// $( document ).on( "pagecreate", function() {
+//     $( ".photopopup" ).on({
+//         popupbeforeposition: function() {
+//             var maxHeight = $( window ).height() - 60 + "px";
+//              var maxWidth = $( window ).width() - 60 + "px";
+//             $( ".photopopup img" ).css( "max-height", maxHeight );
+//         }
+//     });
+// });
+
+
+    function openmask(){
+        var sHeight=document.documentElement.scrollHeight;
+        var sWidth=document.documentElement.scrollWidth;
+
+        var oMask=document.createElement('div');
+        oMask.id="mask";
+        oMask.style.height=sHeight+"px";
+        oMask.style.width=sWidth+"px";
+        document.body.appendChild(oMask);
+
+        var img=document.createElement('img');
+        img.src="/jbmwmall_7.4/Public/Uploads/54cef0e255a96.jpg";
+        // img.style.height=sHeight+"px";
+        // img.style.width=sWidth+"px";
+        img.id='img';
+         img.style.height='80%';
+        img.style.width='50%';
+        oMask.appendChild(img);
+
+        oMask.onclick=function(){
+            document.body.removeChild(oMask)
+        }
+    }
+
+    window.onload=function(){
+        var obtn=document.getElementById('btn')
+        obtn.onclick=function(){
+            openmask();
+            return false;
+        }
+    }
+</script>
+
+</html>

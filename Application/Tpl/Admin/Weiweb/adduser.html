@@ -1,0 +1,113 @@
+<!DOCTYPE html>     
+<html>     
+<head>     
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{$config['num']} 微会员注册</title>     
+<meta name="viewport" content="width=device-width, initial-scale=1"> 
+<!--<script src="cordova.js"></script>  APP调用时引入--> 
+<link rel="stylesheet" href="__PUBLIC__/jqm/jquery.mobile-1.4.5.min.css" />   
+<script src="__PUBLIC__/jqm/jquery-1.10.1.min.js"></script>     
+<script src="__PUBLIC__/jqm/jquery.mobile-1.4.5.min.js"></script>    
+</head>               
+<body>
+	<div data-role="page" data-theme="b" id="index">
+		<div data-role="header" data-position="fixed" data-theme="b">  
+            <h1>{$config['num']}</h1>    
+        </div>
+		<div data-role="content">
+			<img src="__PUBLIC__/images/jbmwxcard.jpg" style="width:80%; margin-left:10%;"/>
+				<label for="lbltel_no">手机号码:</label>
+				<input type="text" name="tel_no" id="tel_no" value="" />
+				<label for="lblmem_id">会员编号:</label>
+				<input type="text" name="mem_id" id="mem_id" value="" />
+				<input name="openid" type="hidden" id ="openid" value="{$openid}">
+				<a href="#" data-role="button" data-theme="b" id="login">注册</a>
+		</div>
+		<div data-role="footer" data-position="fixed" data-theme="b">
+			<div data-role="navbar">
+				<ul>
+					<li><a id="chat" href="#" data-transition = "flip" data-icon="home">首页</a></li>        
+				</ul>
+			</div>
+		</div>
+    
+		<div data-role="content" style="height:430px;">
+			<div data-role="popup" id="popupDialog"  data-dismissible="false" style="max-width:430px;" class="ui-corner-all">
+				<div data-role="header" data-theme="b" class="ui-corner-top">
+					<h1>提示</h1>
+				</div>
+				<div data-role="content" data-theme="d" class="ui-corner-bottom ui-content">
+					<h4 id="retmsg">回复信息</h4>
+					<a href="{:U('Weiweb/index?openid='.$openid )}" data-role="button" data-rel="back" data-theme="b">返回</a>
+					<!--
+					<a href="{:U('Weiweb/index?openid='.$openid )}" data-role="button" data-inline="true" data-rel="back" data-theme="b">取消</a>
+					-->
+				</div>
+			</div>
+		</div>
+	</div>  
+<script>
+	/*
+	function showLoader() {  
+		//显示加载器.for jQuery Mobile 1.2.0  
+		$.mobile.loading('show', {  
+			text: '加载中...', //加载器中显示的文字  
+			textVisible: true, //是否显示文字  
+			theme: 'a',        //加载器主题样式a-e  
+			textonly: false,   //是否只显示文字  
+			html: ""           //要显示的html内容，如图片等  
+		});  
+	}  
+	
+	function hideLoader(){  
+		//隐藏加载器  
+		$.mobile.loading('hide');  
+	}  
+	*/
+$(document).on("pageinit", "#index", function () {
+	$("#login").bind("click",function(){
+		var memid = $("#mem_id").val();
+		var telno = $("#tel_no").val();
+		var openid = $("#openid").val();
+		if (memid=="" || memid == null){
+			$("#retmsg").html("请输入会员编号!!!");
+			$("#popupDialog").popup("open");
+			$("#mem_id").focus();
+			return false;
+		}
+		if (telno=="" || telno== null){
+			$("#retmsg").html("请输入电话号码!!!");
+			$("#popupDialog").popup("open");
+			$("#tel_no").focus();
+			return false;
+		}
+		
+		if (openid=="" || openid== null){
+			//$("#retmsg").html("微信号不存在!!!");
+			//$("#popupDialog").popup("open");
+			//return false;
+		}
+		var url = "__URL__/insertuser";
+		var data = {tel_no:telno,
+			mem_id:memid,
+			openid:openid
+			};
+		
+		$.mobile.loading("show");	
+		//$(this).button("option", "disabled", true);
+		$.post(url,data,function(msg){
+			$("#retmsg").html(msg.info);
+			$("#popupDialog").popup("open");
+			if (msg.status=="300"){
+				location.reload();
+				return false;
+			}
+		});
+		$.mobile.loading("hide");
+		location.replace("{:U('Weiweb/index?openid='.$openid )}");
+		//$(this).button("option", "disabled", false);
+	});
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<div class="bjui-pageContent">
+    <div class="pageFormContent" data-layout-h="0">
+        <div style="margin:15px; width:90%;">
+
+            <!-- Tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li class="active"><a href="#menu" role="tab" data-toggle="tab">菜单管理</a></li>
+            </ul>
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div class="tab-pane fade active in" id="home">
+					<div class="bjui-pageHeader">
+						<ul class="bjui-searchBar">
+							<li class="pull-right">
+								<a href="{:U('Admin/Menu/addmenu')}" type="button" class="btn btn-blue" data-toggle="dialog" data-icon="plus">添加菜单</a>
+							</li>
+						</ul>
+					</div>
+						<table class="table table-bordered table-hover table-striped table-top" data-layout-h="0">
+							<thead>
+								<tr>
+									<th width="26"><input type="checkbox" class="checkboxCtrl" data-group="ids" data-toggle="icheck"></th>
+									<th width="100">ID</th>
+
+									<th>分类名称</th>
+
+									<th>操作</th>
+								</tr>
+							</thead>
+							<tbody>
+								<volist name="menu" id="menu">
+								<tr>
+									<td><input type="checkbox" name="ids" data-toggle="icheck" value="1"></td>
+									<td parent="{$menu.pid}">{$menu.id}</td>
+									<td class="hidden-480">{$menu.name}</td>
+
+									<td>
+										<a href="{:U('Admin/Menu/addmenu',array('zid'=>$menu['id']))}" type="button" class="btn btn-blue" data-toggle="dialog" data-icon="plus">添加子类</a>
+										<a href="{:U('Admin/Menu/addmenu',array('id'=>$menu['id']))}" class="btn btn-green" data-height="400" data-toggle="dialog"  >编辑</a>
+										<a href="{:U('Admin/Menu/del',array('id'=>$menu['id']))}" class="btn btn-red" data-toggle="doajax" data-confirm-msg="确定要删除该行信息吗？">删</a>
+									</td>
+								</tr>
+								</volist>
+							</tbody>
+						</table>
+				</div>
+            </div>
+        </div>
+    </div>
+    <div class="bjui-footBar">
+        <ul>
+            <li><button type="button" class="btn-close" data-icon="close">关闭</button></li>
+        </ul>
+    </div>
+</div>

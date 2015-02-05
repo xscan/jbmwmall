@@ -1,0 +1,61 @@
+<div class="bjui-pageHeader">
+        <ul class="bjui-searchBar">
+            <li class="pull-right"><button type="button" class="btn-default" data-icon="plus" data-toggle="dialog" data-id="mynavtab" data-url="{:U('Admin/Rbac/addUser')}" data-title="添加用户">添加用户</button></li>
+        </ul>
+</div>
+<div class="bjui-pageContent">
+    
+    <table class="table table-bordered table-hover table-striped table-top" data-layout-h="0">
+        <thead>
+            <tr>
+				<th width="26"><input type="checkbox" class="checkboxCtrl" data-group="ids" data-toggle="icheck"></th>
+                <th data-order-field="operation" align="center">ID</th>
+                <th data-order-field="name">用户名称</th>
+                <th>上次登录时间</th>
+                <th>上次登录IP</th>
+                <th>状态</th>
+                <th>用户所属角色</th>
+                <th width="100">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+			<foreach name="user" item="v">
+			<tr>
+				<td><input type="checkbox" name="ids" data-toggle="icheck" value="1"></td>
+				<td>{$v.id}</td>
+				<td>{$v.username}</td>
+				<td>{$v.time}</td>
+				<td>{$v.loginip}</td>
+				<td><if condition="$v['status'] eq 1">启用<else />禁用</if></td>
+				<td><foreach name="v.role" item="value">
+		                  	{$value.name} ({$value.remark})
+		            </foreach>
+				</td>
+				<td>
+					<a href="{:U('Admin/Rbac/addUser',array('id'=>$v['id']))}" class="btn btn-green" data-toggle="dialog" data-reload-warn="本窗口已打开，确定将刷新本窗口内容，是否继续？" data-title="编辑用户">编辑</a>
+					<a href="{:U('Admin/Rbac/delUser',array('id'=>$v['id']))}" class="btn btn-red" data-toggle="doajax" data-confirm-msg="确定要删除该用户吗？">删</a>
+				</td>
+			</tr>
+			</foreach>
+        </tbody>
+    </table>
+    
+</div>
+<script>
+function callback(json)
+{
+	if(json.statusCode == '200'){
+		console.log('ok');
+		$(this)
+		.alertmsg('correct',json.message)
+		.navtab('refresh')
+		.dialog('closeCurrent')
+	}else{
+		console.log('ok');
+		$(this)
+		.alertmsg('error',json.message)
+		.navtab('refresh')
+		.dialog('closeCurrent')
+	}
+}
+</script>

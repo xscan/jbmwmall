@@ -1,0 +1,120 @@
+<div class="bjui-pageContent">
+        <div class="pageFormContent" data-layout-h="0">
+            <div style="margin:15px; width:800px;">
+                
+                    <!-- Tabs -->
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="active"><a href="#set1" role="tab" data-toggle="tab">商城设置</a></li>
+                        
+                        <li><a href="#set2" role="tab" data-toggle="tab">模版设置</a></li>
+                        <li><a href="#set3" role="tab" data-toggle="tab">支付宝设置</a></li>
+                    </ul>
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div class="tab-pane fade active in" id="set1">
+							<form action="{:U('Admin/Index/setting')}"  class="pageForm" data-toggle="validate" method="post">
+								<table>
+									<tr>
+										<td>
+											<label for="form-field-1" class="control-label x85">商城名称：</label>
+										</td>
+										<td>
+											<input type="text" name="name" id="form-field-1" value="{$info.name}" size="25">
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<label for="form-field-2" class="control-label x85">商城公告：</label>
+										</td>
+										<td>
+											<input type="text" name="notification" id="form-field-2" value="{$info.notification}"  size="25">
+										</td>
+									</tr>
+									<tr>
+										<td class="text-right">
+											
+										</td>
+										<td class="text-center">
+											<button type="submit" class="btn-default" data-icon="save">保存</button>&nbsp;
+											<button type="reset" class="btn-orange" data-icon="undo">取消</button>
+										</td>
+									</tr>
+									
+								</table>
+							</form>
+						</div>
+                      
+                        <div class="tab-pane fade" id="set2" style="height:800px;">
+							<div class="bjui-pageHeader">
+								更多主题下载,请访问  <a href="http://www.inuoer.com">http://www.bm0731.com</a>
+							</div>
+							<div class="bjui-pageContent">
+								<div style="margin-left: 10px;">
+									<div style="width: 260px; ">
+										<img src="__ROOT__/Application/Tpl/App/{$settheme}/thumb.png" style="width: 240px; height: 340px;"
+											class="img-thumbnail">
+										<button type="button" class="btn btn-blue btn-lg btn-block"
+											style="margin: -2px 10px 0px 0px; width: 240px;">已设置</button>
+									</div><br />
+									<volist name="theme" id="themevo">
+									<div class="margin-left: 10px;">
+										<div style="width: 260px;">
+											<img src="__ROOT__/Application/Tpl/App/{$themevo->dir}/thumb.png" style="width: 240px; height: 340px;" class="img-thumbnail">
+											<a type="button" href="{:U('Admin/Index/settheme',array('name'=>$themevo->dir))}" class="btn btn-default btn-lg btn-block" style="margin: -2px 10px 0px 0px; width: 240px;"  data-toggle="doajax">设置</a>
+										</div>
+									</div>
+									</volist>
+								</div>
+								
+							</div>
+						</div>
+                        <div class="tab-pane fade" id="set3">
+						<form action="{:U('Admin/Index/setalipay')}"  class="pageForm" data-toggle="validate" method="post">
+							<table>
+									<tr>
+										<td>
+											<label for="form-field-1" class="control-label x85">支付宝帐号：</label>
+										</td>
+										<td>
+											<input type="text" name="alipayname" id="form-field-1" value="{$alipay.alipayname}" size="25">
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<label for="form-field-2" class="control-label x100">合作身份者ID：</label>
+										</td>
+										<td>
+											<input type="text" name="partner" id="form-field-2" value="{$alipay.partner}"  size="25">
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<label for="form-field-3" class="control-label x110">安全检验码KEY：</label>
+										</td>
+										<td>
+											<input type="password" name="key" id="form-field-3" value="{$alipay.key}" size="25">
+										</td>
+									</tr>
+									<tr>
+										<td class="text-right">
+											
+										</td>
+										<td class="text-center">
+											<button type="submit" class="btn-default" data-icon="check">提交</button>&nbsp;
+											<button type="reset" class="btn-orange" data-icon="undo">取消</button>
+										</td>
+									</tr>
+									
+								</table>
+						</form>
+						</div>
+                    </div>
+            </div>
+        </div>
+
+    <div class="bjui-footBar">
+        <ul>
+            <li><button type="button" class="btn-close" data-icon="close">关闭</button></li>
+        </ul>
+    </div>
+</div>

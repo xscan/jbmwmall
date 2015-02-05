@@ -1,0 +1,42 @@
+<div class="bjui-pageContent">
+	<div class="pageFormContent" data-layout-h="0">
+		<div style="margin:15px auto 0; width='100%'">
+
+			<!-- Tabs -->
+			<ul class="nav nav-tabs" role="tablist">
+				<li>
+					<a data-reload="true" data-target="#senduser" data-toggle="ajaxtab" role="tab" href="{:U('Admin/Messmassage/newssendusermsg')}">选人发送</a>
+					<li class="active"><a href="#newmasssendmsg" role="tab" data-toggle="tab">新建群发</a>
+					</li>
+					<li>
+						<a data-reload="true" data-target="#messages" data-toggle="ajaxtab" role="tab" href="{:U('Admin/Messmassage/sendmsglog')}">已发送</a>
+					</li>
+			</ul>
+			<!-- Tab panes -->
+			<div class="tab-content">
+				<div class="tab-pane fade" id="senduser"></div>
+				<div class="tab-pane fade active in" id="newmasssendmsg">
+					<form action="{:U('Admin/Messmassage/massSendMsg')}" class="pageForm" data-toggle="validate" method="post">
+						<div class="row">
+							<div class="col-sm-12">
+
+								<ul class="list-group">
+									<li class="list-group-item active">
+										<span class="badge">当月已发送{$msglen}条</span> 群发内容(注:需要管理员授权,建议登录公众平台发送)
+									</li>
+									<li class="list-group-item">
+										<div class="input-group input-group-sm">
+											<textarea cols="100%" rows="1" data-toggle="autoheight" name='masssendmsg' placeholder="请输入发送内容,可发送多行文本" />
+											<button type="submit" class="btn btn-primary  btn-block">发送</button>
+										</div>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="tab-pane fade" id="messages"></div>
+			</div>
+		</div>
+	</div>
+</div>

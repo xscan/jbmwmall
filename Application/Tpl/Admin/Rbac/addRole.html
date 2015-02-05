@@ -1,0 +1,41 @@
+<div class="bjui-pageContent">
+	<form action="{:U('Admin/Rbac/addRoleHandle')}" data-toggle="validate" method="post" data-callback="callback">
+    <div class="pageFormContent" data-layout-h="0">
+        <div class="bjui-doc">
+			<h3 class="page-header text-center">角色管理</h3>
+			
+            <table class="table table-condensed table-hover">
+                <tbody>
+					<tr>
+						<td><label for="name" class="control-label x85">角色名称：</label></td>
+						<td><input type="text" name="name" id="name" value="{$role.name}"  size="15"></td>
+					</tr>
+                    <tr>
+						<td>
+							<label for="remark" class="control-label x85">角色描述：</label>
+						</td>
+						<td>
+							<input type="text" name="remark" id="remark" value="{$role.remark}"  size="15">
+							<input type="hidden" name="id" value="{$role.id}">
+						</td>
+					</tr>
+					<tr>
+                        <td><label for="" class="control-label x85">状态:</label></td>
+						<td><select name="status" class="normal_select" data-toggle="selectpicker">
+							<option value="1" <if condition="$role['status'] eq 1">selected="selected"</if> >启用</option>
+							<option value="0" <if condition="$role['status'] eq 0">selected="selected"</if> >禁用</option>
+						</select></td>
+                    </tr>
+				</tbody>
+			</table>
+			
+        </div>
+    </div>
+    <div class="bjui-footBar">
+        <ul>
+            <li><button type="button" class="btn-close" data-icon="close">关闭</button></li>
+			<li><button type="submit" data-refresh="Menu" class="btn-default" data-icon="save">保存</button></li>
+        </ul>
+    </div>
+	</form>
+</div>

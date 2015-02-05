@@ -1,0 +1,94 @@
+   <div class="row">
+                        <div class="col-sm-3">
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">
+                                    分组列表
+                                </div>
+                                <div clas="list-group" data="grouplist">
+                                    <foreach name="groupdata" item="vo">
+                                        <a href="#" class="list-group-item" data-value="{$vo.id}" data-toggle="tooltip" data-placement="right" title="点击获取分组"><span class="badge">{$vo.cnt}</span>{$vo.name}</a>
+                                    </foreach>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">
+                                    分组用户列表
+                                </div>
+                                <div clas="list-group" data="userlist">
+                                    <li class="list-group-item">请先点击分组列表</li>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">
+                                    发送列表
+                                </div>
+                                <div clas="list-group" data="senduserlist">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">
+                                    发送内容
+                                </div>
+                                <div class="input-group input-group-sm">
+                                    <textarea cols="100%" rows="1" data-toggle="autoheight" id='msg' placeholder="请输入发送内容,可发送多行文本" />
+                                </div>
+                                <button type="button" class="btn btn-primary  btn-block" id="sendusermsg">发送</button>
+                            </div>
+                        </div>
+                    </div>
+<script type="text/javascript">
+//根据组id获取分组用户
+
+	
+
+$("[data=grouplist]>.list-group-item").click(function() {
+    console.log('发送成功');
+    $.post("{:U('Admin/Messmassage/getGroupUser')}", {
+            id: $(this).attr('data-value')
+        },
+        function(data, status) {
+        	console.log('回调成功');
+            $(this).alertmsg('correct', '获取分组列表成功');
+            if (data.message == null) {
+                $('[data=userlist]').html('<a href="#" class="list-group-item" >无用户</a>');
+            }
+            $('[data=userlist]').html(data.message)
+            //动态加载js
+            var oHead = document.getElementsByTagName('HEAD').item(0);
+            var oScript = document.createElement("script");
+            oScript.type = "text/javascript";
+            oScript.src = "__PUBLIC__/userlist.js";
+            oHead.appendChild(oScript);
+        })
+})
+
+$('#sendusermsg').click(function() {
+    var arrid = [];
+    var arrname = [];
+    var i = 0;
+    $('[data=senduserlist]>.list-group-item').each(function() {
+        arrid[i] = $(this).attr('data-value');
+        arrname[i] = $(this).html();
+        i++;
+    });
+    $.post("{:U('Admin/Messmassage/SendMsg')}", {
+            id: arrid,
+            name: arrname,
+            msg: $('#msg').val()
+        },
+        function(data, status) {
+            console.log(data.message);
+            $('#msg').val('');
+            $(this).alertmsg('correct', data.message);
+        });
+});
+</script>

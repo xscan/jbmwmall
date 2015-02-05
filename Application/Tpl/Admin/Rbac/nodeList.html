@@ -1,0 +1,38 @@
+<div class="bjui-pageContent">
+    <div class="pageFormContent" data-layout-h="0">
+        <div class="bjui-doc">
+			<h3 class="page-header text-center">节点列表</h3>
+		
+          <div class="table-responsive">
+            <button type="button" class="btn-default btn-lg" data-icon="plus" data-toggle="dialog" data-id="mynavtab" data-url="{:U('Admin/Rbac/addNode')}" data-title="添加应用">添加应用</button>
+			<foreach name="node" item="app">
+				<div class="app list-group-item">
+					<p>{$app.title} <a href="{:U('Admin/Rbac/addNode',array('pid' => $app['id'], 'level'=>2 ))}" class="btn btn-green" data-toggle="dialog" data-reload-warn="本窗口已打开，确定将刷新本窗口内容，是否继续？" data-title="添加控制器">添加控制器</a></p>
+				
+					<foreach name="app.child" item="action">
+						<dl class="list-group">
+							<dt class="list-group-item active">
+								{$action.title}
+								<a  href="{:U('Admin/Rbac/addNode',array('pid' => $action['id'], 'level'=>3 ))}" class="btn btn-green" data-toggle="dialog" data-reload-warn="本窗口已打开，确定将刷新本窗口内容，是否继续？" data-title="添加方法">添加方法</a>
+								<a href="{:U('Admin/Rbac/addNode',array('id'=>$action['id']))}" class="btn btn-green" data-toggle="dialog" data-reload-warn="本窗口已打开，确定将刷新本窗口内容，是否继续？" data-title="编辑用户">编辑</a>
+								<a href="{:U('Admin/Rbac/delNode',array('id'=>$action['id']))}" class="btn btn-red" data-toggle="doajax" data-confirm-msg="确定要删除该用户吗？">删</a>
+							</dt>
+							<dd class="list-group-item row">
+							<foreach name="action.child" item="method">
+								<div class="col-sm-3">
+									<span>{$method.title}</span>
+									<a href="{:U('Admin/Rbac/addNode',array('id'=>$method['id']))}" class="btn btn-green" data-toggle="dialog" data-reload-warn="本窗口已打开，确定将刷新本窗口内容，是否继续？" data-title="编辑用户">编辑</a>
+									<a href="{:U('Admin/Rbac/delNode',array('id'=>$method['id']))}" class="btn btn-red" data-toggle="doajax" data-confirm-msg="确定要删除该用户吗？">删</a>
+									&nbsp;
+							</div>
+							</foreach>
+								</dd>
+						</dl>
+						
+					</foreach>
+				</div>
+			</foreach>
+          </div>
+        </div>
+      </div>
+    </div>

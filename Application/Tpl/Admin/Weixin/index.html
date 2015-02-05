@@ -1,0 +1,460 @@
+<div class="bjui-pageContent">
+        <div class="pageFormContent" data-layout-h="0">
+            <div style="margin:15px; width:95%;">
+            
+                <!-- Tabs -->
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="active"><a href="#home1" role="tab" data-toggle="tab">基本信息</a></li>
+                    <li><a href="#home2" role="tab" data-toggle="tab">菜单管理</a></li>
+                    <li><a href="#home3" role="tab" data-toggle="tab">添加菜单</a></li>
+					<li><a href="#home4" role="tab" data-toggle="tab">自定义回复</a></li>
+					<li><a href="#home5" role="tab" data-toggle="tab">外部数据源设置</a></li>
+                </ul>
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div class="tab-pane fade active in" id="home1">
+					<form action="{:U('Admin/Weixin/setconfig')}"  class="pageForm" data-toggle="validate" method="post">
+						<table>
+							<tr>
+								<td>
+									<label for="name" class="control-label x120">公众号:</label>
+								</td>
+								<td>
+									<input type="text" name="num" id="name" value="{$config.num}" size="25">
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label for="ini_num" class="control-label x120">微信原始账号:</label>
+								</td>
+								<td>
+									<input type="text" name="ini_num" id="ini_num" value="{$config.ini_num}"  size="25">
+								</td>
+							</tr>
+							<tr>
+								<td class="text-right">
+									<label for="" class="control-label x120">url:</label>
+								</td>
+								<td style="padding:2px 0px;">{$url}</td>
+							</tr>
+							<tr>
+								<td>
+									<label for="token" class="control-label x120">token:</label>
+								</td>
+								<td>
+									<input type="text" name="token" id="token" value="{$config.token}"  size="25">
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label for="token" class="control-label x120">appid:</label>
+								</td>
+								<td>
+									<input type="text" name="appid" id="appid" value="{$config.appid}"  size="25">
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label for="appsecret" class="control-label x120">appsecret:</label>
+								</td>
+								<td>
+									<input type="text" name="appsecret" id="appsecret" value="{$config.appsecret}"  size="25">
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label for="encodingaeskey" class="control-label x120">encodingaeskey:</label>
+								</td>
+								<td>
+									<input type="text" name="encodingaeskey" id="encodingaeskey" value="{$config.encodingaeskey}"  size="25">
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label for="partnerid" class="control-label x120">(商户代码)partnerid:</label>
+								</td>
+								<td>
+									<input type="text" name="partnerid" id="partnerid" value="{$config.partnerid}"  size="25">
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label for="partnerkey" class="control-label x120">(商户密钥)partnerkey:</label>
+								</td>
+								<td>
+									<input type="password" name="partnerkey" id="partnerkey" value="{$config.partnerkey}"  size="25">
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label for="paysignkey" class="control-label x120">(签署密钥)paysignkey:</label>
+								</td>
+								<td>
+									<input type="password" name="paysignkey" id="paysignkey" value="{$config.paysignkey}"  size="25">
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label for="" class="control-label x120">公众平台登录账号:</label>
+								</td>
+								<td>
+									<input type="text" name="ptaccount" id="ptaccount" value="{$config.ptaccount}"  size="25">
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label for="" class="control-label x120">公众平台登录密码:</label>
+								</td>
+								<td>
+									<input type="password" name="ptpassword" id="ptpassword" value="{$config.ptpassword}"  size="25">
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label for="" class="control-label x120">平台联系方式:</label>
+								</td>
+								<td>
+									<input type="text" name="pttelemp" id="pttelemp" value="{$config.pttelemp}"  size="25">在微信中显示公司联系方式
+								</td>
+							</tr>
+							<tr>
+								<td class="text-right"></td>
+								<td class="text-center">
+									<button type="submit" class="btn-default" data-icon="save">保存</button>&nbsp;
+									<button type="reset" class="btn-orange" data-icon="undo">取消</button>
+								</td>
+							</tr>
+									
+						</table>
+						</form>
+					</div>
+                    <div class="tab-pane fade" id="home2">
+					<div class="bjui-pageHeader">
+						<ul class="bjui-searchBar">
+							<li class="pull-right">
+								<a href="{:U('Admin/Wechat/createMenu')}" type="button" class="btn btn-blue btn-nm btn-block" data-toggle="doajax">重新生成菜单</a>
+							</li>
+						</ul>
+					</div>
+						<table class="table table-bordered table-hover table-striped table-top" data-layout-h="0">
+							<thead>
+								<tr>
+									<th width="26"><input type="checkbox" class="checkboxCtrl" data-group="ids" data-toggle="icheck"></th>
+									<th width="80">排序</th>
+									<th width="100">ID</th>
+									<th>显示名称</th>
+									<th width="80">类型</th>
+									<th width="200">URL</th>
+									<th>点击事件key</th>
+									<th>级别</th>
+									<th>上级菜单</th>
+									<th>管理操作</th>
+								</tr>
+							</thead>
+							<tbody>
+								<volist name="menu" id="menu">
+								<tr>
+									<td><input type="checkbox" name="ids" data-toggle="icheck" value="1"></td>
+									<td>{$menu.listorder}</td>
+									<td>{$menu.menu_id}</td>
+									<td>{$menu.menu_name}</td>
+									<td><if condition="$menu['menu_type'] eq 'view'">超链接<else />点击事件</if></td>
+									<td>{$menu.view_url}</td>
+									<td>{$menu.event_key}</td>
+									<td><if condition="$menu['pid'] eq 0">一级菜单<else />二级菜单</if></td>
+									<td><if condition="$menu['pid'] eq 0">无<else /><foreach name="menu1" item="v"><if condition="$menu['status'] eq $v['menu_id']">{$v['menu_name']}<?php break;?></if> </foreach></if></td>
+									<td>
+										<a href="{:U('Admin/Weixin/UpdateMenu',array('id'=>$menu['menu_id']))}" class="btn btn-green" data-height="400" data-toggle="dialog"  >编辑</a>
+										<a href="{:U('Admin/Weixin/delmenu',array('id'=>$menu['menu_id']))}" class="btn btn-red" data-toggle="doajax" data-confirm-msg="确定要删除该行信息吗？">删</a>
+									</td>
+								</tr>
+								</volist>
+							</tbody>
+						</table>
+						
+					</div>
+                    <div class="tab-pane fade" id="home3">
+						<form action="{:U('Admin/Weixin/addmenu')}" data-toggle="validate"  method="post">
+							<table>
+								<tr>
+									<td>
+										<label for="" class="control-label x85">级别:</label>
+									</td>
+									<td>
+										<select name="pid" id="pid" data-toggle="selectpicker">
+											<option value="0">作为一级菜单</option>
+											<option value="1">作为二级菜单</option>
+										</select>
+									</td>
+								</tr>
+								<tr id="sjmenu" style="display:none">
+									<td>
+										<label for="" class="control-label x85">上级菜单:</label>
+									</td>
+									<td>
+										<select name="status" data-toggle="selectpicker">
+											<foreach name="sjmenu" item="v">
+											<option value="{$v.menu_id}">{$v.menu_name}</option>
+											</foreach>
+										</select>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<label for="menu_name" class="control-label x85">显示名称:</label>
+									</td>
+									<td>
+										<input type="text" name="menu_name" id="menu_name" value=""  size="15">
+										<input type="hidden" name="menu_id" value="0" id="menu_id" >
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<label for="menu_type" class="control-label x85">类型:</label>
+									</td>
+									<td>
+										<select id="menu_type" name="menu_type" data-toggle="selectpicker">
+											<option value="view" selected="">超链接</option>
+											<option value="click">点击事件</option>
+										</select>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<label for="view_url" class="control-label x85">URL:</label>
+									</td>
+									<td>
+										<textarea name="view_url" id="view_url" data-toggle="autoheight" cols="15" rows="21"></textarea>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<label for="event_key" class="control-label x85">点击事件key:</label>
+									</td>
+									<td>
+										<input type="text" name="event_key" id="event_key" value=""  size="15">
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<label for="listorder" class="control-label x85">排序:</label>
+									</td>
+									<td>
+										<input type="text" name="listorder" id="listorder" value=""  size="15">
+									</td>
+								</tr>
+								<tr>
+									<td class="text-right">
+										
+									</td>
+									<td class="text-center">
+										<button type="submit" class="btn-default" onClick="return checknull()" data-icon="save">提交</button>&nbsp;
+										<button type="reset" class="btn-orange" data-icon="undo">取消</button>
+									</td>
+								</tr>
+								
+							</table>
+						</form>
+					</div>
+					<div class="tab-pane fade" id="home4">
+						<div class="bjui-pageHeader">
+							<ul class="bjui-searchBar">
+								<li class="pull-right">
+									<a href="{:U('Admin/Weixin/addmessage')}" type="button" class="btn btn-blue btn-nm btn-block" data-height="400" data-width="600" data-toggle="dialog">添加自定义回复</a>
+								</li>
+							</ul>
+						</div>
+						<table class="table table-bordered table-hover table-striped table-top" data-layout-h="0">
+							<thead>
+								<tr>
+									<th width="26"><input type="checkbox" class="checkboxCtrl" data-group="ids" data-toggle="icheck"></th>
+									<th>ID</th>
+									<th>类型</th>
+									<th>标题</th>
+									<th>描述</th>
+									<th>图片</th>
+									<th>URL</th>
+									<th>关键词</th>
+									<th>操作</th>
+								</tr>
+							</thead>
+							<tbody>
+								<volist name="message" id="message">
+								<tr>
+									<td><input type="checkbox" name="ids" data-toggle="icheck" value="1"></td>
+									<td>{$message.id}</td>
+									<td>{$message.type}</td>
+									<td>{$message.title}</td>
+									<td>{$message.description}</td>
+									<td>
+									<div class="btn-group">
+											<a class="btn btn-default btn-sm" data-toggle="dropdown">
+												预览
+											</a>
+											<div class="dropdown-menu" role="menu">
+												<center><img style="padding: 0px 0px 6px 0px;max-width:200px;max-height:200px;" src="__PUBLIC__/Uploads/{$message.picurl}"/></center>
+											</div>
+										</div>
+									</td>
+									<td>{$message.url}</td>
+									<td>{$message.key}</td>
+									<td>
+										<a href="{:U('Admin/Weixin/addmessage',array('id'=>$message['id']))}" class="btn btn-green" data-height="400" data-width="600" data-toggle="dialog"  >编辑</a>
+										<a href="{:U('Admin/Weixin/delmessage',array('id'=>$message['id']))}" class="btn btn-red" data-toggle="doajax" data-confirm-msg="确定要删除该行信息吗？">删</a>
+									</td>
+								</tr>
+								</volist>
+							</tbody>
+						</table>
+					</div>
+					
+                    <div class="tab-pane fade" id="home5">
+					<form action="{:U('Admin/Weixin/setext')}"  class="pageForm" data-toggle="validate" method="post">
+						<table>
+							<tr>
+								<td>
+									<label for="" class="control-label x120">IP:</label>
+								</td>
+								<td>
+									<input type="text" name="ext_ip" id="ext_ip" value="{$extdb.ext_ip}" size="25">
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label for="" class="control-label x120">数据库类型:</label>
+								</td>
+								<td>
+									<select name="ext_type" id="ext_type" data-toggle="selectpicker">
+                                        <option value="{$extdb.ext_type}">{$extdb.ext_type}</option>
+										<option value="odbc_mssql">odbc_mssql</option>
+										<option value="mysql">mysql</option>
+										<option value="mssql2005">mssql2005</option>
+										<option value="oracle">oracle</option>
+									</select>
+								</td>
+							</tr>
+							
+							<tr>
+								<td>
+									<label for="" class="control-label x120">数据库名:</label>
+								</td>
+								<td>
+									<input type="text" name="ext_dbname" id="ext_dbname" value="{$extdb.ext_dbname}"  size="25">
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label for="" class="control-label x120">用户名:</label>
+								</td>
+								<td>
+									<input type="text" name="ext_uid" id="ext_uid" value="{$extdb.ext_uid}"  size="25">
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label for="" class="control-label x120">密码:</label>
+								</td>
+								<td>
+									<input type="password" name="ext_pwd" id="ext_pwd" value="{$extdb.ext_pwd}"  size="25">
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label for="" class="control-label x120">端口号:</label>
+								</td>
+								<td>
+									<input type="text" name="ext_port" id="ext_port" value="{$extdb.ext_port}"  size="25">
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label for="" class="control-label x120">外部数据源名称:</label>
+								</td>
+								<td>
+									<input type="text" name="ext_name" id="ext_name" value="{$extdb.ext_name}"  size="25">
+                                    <input type="hidden" name="extflag"  id="extflag" value="">
+								</td>
+							</tr>
+							<tr>
+								<td class="text-right"></td>
+								<td class="text-center">
+									<button type="submit"  name="extsubmit" id="extsubmit" value="extsubmit" class="btn-default" data-icon="save">保存</button>&nbsp;
+									<button type="submit" name="exttest" id="exttest" value="exttest" class="btn-blue" data-icon="undo">测试链接</button>
+								</td>
+							</tr>			
+						</table>
+						</form>
+					</div>
+                </div>
+            </div>
+        </div>
+    <div class="bjui-footBar">
+        <ul>
+            <li><button type="button" class="btn-close" data-icon="close">关闭</button></li>
+        </ul>
+    </div>
+</div>
+<script type="text/javascript">
+	$('#pid').change(function(){
+		var pid = $('#pid').val();
+		if(pid == 1){
+			$("#sjmenu").show();
+		}else{
+			$("#sjmenu").hide();
+		}
+	});
+	
+	/*$("#menu_type").change(function(){
+		if($("#menu_type").val() == "view"){
+			$("#event_key").removeAttr("data-rule");
+			$("#view_url").attr("data-rule","required");
+			alert("11");
+		}else{
+			$("#view_url").removeAttr("data-rule");
+			$("#event_key").attr("data-rule","required");
+			alert("22");
+		}
+	});*/
+	
+	function checknull(){
+		var $pid = $("#pid").val();
+		var menu_type = $("#menu_type").val();
+		var view_url = $("#view_url").val();
+		var event_key = $("#event_key").val();
+		//alert(event_key);
+		if ($pid==0 && (menu_type == "view" || menu_type == "click" )){
+			alert("一级菜单必须填写KEY,否则菜单无法生成!!!");
+			return false;
+		}
+		if(menu_type == "view" ){
+			if(view_url == "" || view_url == NULL  ){
+				alert("URL地址不能为空！");
+				return false;
+			}
+			
+		}
+		if(menu_type == "click" ){
+			if(event_key == "" || event_key == NULL){
+				alert("点击事件key不能为空！");
+				return false;
+			}
+		}
+	}
+	
+	function callback(json)
+	{
+		if(json.statusCode == '200'){
+			console.log('ok');
+			$(this)
+			.alertmsg('correct',json.message)
+			.navtab('refresh')
+			.dialog('closeCurrent')
+		}else{
+			console.log('ok');
+			$(this)
+			.alertmsg('error',json.message)
+			.navtab('refresh')
+			.dialog('closeCurrent')
+		}
+	}
+</script>

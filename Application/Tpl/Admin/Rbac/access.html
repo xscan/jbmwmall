@@ -1,0 +1,56 @@
+<div class="bjui-pageContent">
+	<form action="{:U('Admin/Rbac/setAccess')}" data-toggle="validate" method="post" data-callback="callback">
+    <div class="pageFormContent" data-layout-h="0">
+        <div class="bjui-doc">
+			<h3 class="page-header text-center">节点列表</h3>
+		
+
+<div class="table-responsive">
+    
+	<foreach name="node" item="app">
+		<div class="app list-group-item">
+			<p>
+				{$app.title} <input type="checkbox" name="access[]" value="{$app.id}_1" level="1" <if condition='$app["access"]'>checked='checked'</if> />
+			</p>
+			<foreach name="app.child" item="action">
+				<dl class="list-group">
+					<dt class ="list-group-item active" style="color:#fff;">
+						{$action.title} <input type="checkbox" name="access[]" value="{$action.id}_2" level="2" <if condition='$action["access"]'>checked="checked"</if> />
+					</dt >
+					<dd class="list-group-item row">
+					<foreach name="action.child" item="method">
+						<div class="col-sm-2">
+							<span>{$method.title}</span> <input type="checkbox" name="access[]" value="{$method.id}_3" level="3" <if condition='$method["access"]'>checked="checked"</if> />
+							</div>
+							
+					</foreach>
+					</dd>
+				</dl>
+				
+			</foreach>
+		</div>
+	</foreach>
+
+	
+</div>
+    <div class="text-center">
+	<input type="hidden" name="rid" value="{$rid}" />
+	<button type="submit" data-refresh="Menu" class="btn-default" data-icon="save">保存</button>
+	<button type="button" class="btn-close" data-icon="close">关闭</button>
+	</div>
+</div>
+</form>
+</div>
+
+
+<script type="text/javascript">
+
+			$('input[level=1]').click(function(){
+				var inputs = $(this).parents('.app').find('input');
+				$(this).attr('checked')?inputs.attr('checked', 'checked'):inputs.removeAttr('checked');
+			});
+			$('input[level=2]').click(function(){
+				var inputs = $(this).parents('dl').find('input');
+				$(this).attr('checked')?inputs.attr('checked', 'checked'):inputs.removeAttr('checked');
+			});
+</script>

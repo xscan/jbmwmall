@@ -1,0 +1,57 @@
+<div class="bjui-pageHeader">
+        <ul class="bjui-searchBar">
+            <li class="pull-right"><button type="button" class="btn-default" data-icon="plus" data-toggle="dialog" data-id="mynavtab" data-url="{:U('Admin/Rbac/addNode')}" data-title="添加应用">添加应用</button></li>
+        </ul>
+</div>
+<div class="bjui-pageContent">
+    
+    <table class="table table-bordered table-hover table-striped table-top" data-layout-h="0">
+        <thead>
+            <tr>
+				<th width="26"><input type="checkbox" class="checkboxCtrl" data-group="ids" data-toggle="icheck"></th>
+                <th data-order-field="operation" align="center">ID</th>
+                <th data-order-field="name">节点名称</th>
+                <th>节点描述</th>
+                <th>节点属性</th>
+                <th>状态</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+			<foreach name="node" item="v">
+			<tr>
+				<td><input type="checkbox" name="ids" data-toggle="icheck" value="1"></td>
+				<td>{$v.id}</td>
+				<td>{$v.name}</td>
+				<td>{$v.title} </td>
+				<td><if condition="$v['level'] eq 1">根节点<elseif condition="$v['level'] eq 2"/>父节点<else />子节点</if></td>
+				<td><if condition="$v['status'] eq 1">启用<else />禁用</if></td>
+				<td><if condition="$v['level'] neq 3"><?php $level=$v['level']+1; if($v['level'] == 1)$type="控制器";else $type = "方法"; ?>
+					<a href="{:U('Admin/Rbac/addNode',array('pid'=>$v['id'], 'level'=>$level ))}" class="btn btn-green" data-toggle="dialog" data-reload-warn="本窗口已打开，确定将刷新本窗口内容，是否继续？" data-title="添加{$type}">添加{$type}</a></if>
+					<a href="{:U('Admin/Rbac/addNode',array('id'=>$v['id']))}" class="btn btn-green" data-toggle="dialog" data-reload-warn="本窗口已打开，确定将刷新本窗口内容，是否继续？" data-title="编辑用户">编辑</a>
+					<a href="{:U('Admin/Rbac/delNode',array('id'=>$v['id']))}" class="btn btn-red" data-toggle="doajax" data-confirm-msg="确定要删除该用户吗？">删</a>
+				</td>
+			</tr>
+			</foreach>
+        </tbody>
+    </table>
+    
+</div>
+<script>
+function callback(json)
+{
+	if(json.statusCode == '200'){
+		console.log('ok');
+		$(this)
+		.alertmsg('correct',json.message)
+		.navtab('refresh')
+		.dialog('closeCurrent')
+	}else{
+		console.log('ok');
+		$(this)
+		.alertmsg('error',json.message)
+		.navtab('refresh')
+		.dialog('closeCurrent')
+	}
+}
+</script>

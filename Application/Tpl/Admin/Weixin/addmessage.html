@@ -1,0 +1,99 @@
+<div class="bjui-pageContent">
+    <form action="{:U('Admin/Weixin/addmessage')}" method="post" data-toggle="validate" data-callback="callback" enctype="multipart/form-data">
+        <div class="pageFormContent" data-layout-h="0">
+            <table class="table table-condensed table-hover">
+                <tbody>
+                    <tr>
+                        <td colspan="2" align="center"><h3>自定义回复</h3></td>
+                    </tr>
+                    <tr>
+						<td>
+							<label for="" class="control-label x85">类型:</label>
+						</td>
+						<td>
+							<select name="type" id="type" data-toggle="selectpicker">
+								<option value="0" <if condition="$wxmessage['type'] eq 0">selected="true" </if> >图文</option>
+								<option value="1" <if condition="$wxmessage['type'] eq 1">selected="true" </if> >文本</option>
+							</select>
+						</td>
+					</tr>
+					
+					<tr>
+						<td>
+							<label for="title" class="control-label x85">标题:</label>
+						</td>
+						<td>
+							<input type="text" name="title" id="title" value="{$wxmessage['title']}"  size="15">
+							<input type="hidden" class="input" name="message_id"  value="{$wxmessage['id']}">
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="description" class="control-label x85">描述:</label>
+						</td>
+						<td>
+							<textarea name="description" id="description" data-toggle="autoheight" value="" cols="40" rows="3">{$wxmessage['description']}</textarea>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label class="control-label x85">图片：</label>
+						</td>
+						<td>
+                            
+                            <div style="display: inline-block; vertical-align: middle;">
+                                <div id="j_custom_pic_up" data-toggle="upload" data-uploader="{:U('Admin/Weixin/upload')}" 
+                                    data-file-size-limit="1024000000"
+                                    data-file-type-exts="*.jpg;*.png;*.gif;*.mpg"
+                                    data-multi="false"
+                                    data-on-upload-success="doc_upload_success"
+                                    data-icon="cloud-upload"></div>
+                                <input type="hidden" name="picurl" value="" id="j_custom_pic" data-target="#j_custom_pic_up .bjui-upload-select-file">
+                                <if condition="$wxmessage['picurl']"><img src="__PUBLIC__/Uploads/{$wxmessage['picurl']}" id="goodimage123" style="max-width:650px" height="200" width="200" class="img-thumbnail">
+								</if><span id="j_custom_span_pic"></span>
+                            </div>允许的图片类型: jpg,gif,png,jpeg并且图片大小小于200k.
+                            <script type="text/javascript">
+                                function doc_upload_success(file, data) {
+                                    var json = $.parseJSON(data)
+                                
+                                    $(this).bjuiajax('ajaxDone', json)
+                                    if (json[BJUI.keys.statusCode] == BJUI.statusCode.ok) {
+                                        $('#j_custom_pic').val(json.pic)
+                                        $('#j_custom_span_pic').html('已上传图片：<img src="'+ json.pic +'" width="100">')
+                                    }
+                                }
+                            </script>
+                           
+                           <!--
+                            <input multiple="multiple" type="file" name="picurl">
+                            -->
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="url" class="control-label x85">URL(网址):</label>
+						</td>
+						<td>
+							<textarea name="url" id="url" data-toggle="autoheight" value="" cols="40" rows="3">{$wxmessage['url']}</textarea>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="listorder" class="control-label x85">关键字:</label>
+						</td>
+						<td>
+							<input type="text" name="key" id="key" value="{$wxmessage['key']}" size="15">
+							<br>注意系统内置关键字: ZC,CX,XX,XF,ZD等</br>
+						</td>
+					</tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="bjui-footBar">
+            <ul>
+                <li><button type="button" class="btn-close">关闭</button></li>
+                <li><button type="submit" class="btn-default">保存</button></li>
+            </ul>
+        </div>
+    </form>
+</div>

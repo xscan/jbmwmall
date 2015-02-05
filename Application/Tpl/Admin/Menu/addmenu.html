@@ -1,0 +1,39 @@
+<div class="bjui-pageContent">
+	<form action="{:U('Admin/Menu/addmenu')}" data-toggle="validate" method="post">
+    <div class="pageFormContent" data-layout-h="0">
+        <div class="bjui-doc">
+			<h3 class="page-header text-center">商城菜单</h3>
+			
+            <table class="table table-condensed table-hover">
+                <tbody>
+                    <tr>
+                        <td><label for="" class="control-label x85">上级:</label></td>
+						<td><select name="parent" class="normal_select" data-toggle="selectpicker">
+							<option value="0">作为一级分类</option>
+							<volist name="menulist" id="menulist">
+								<option value="{$menulist.id}" <if condition="$Umenu['pid'] eq $menulist['id']">selected="selected"</if> >{$menulist.name}</option>
+							</volist>
+						</select></td>
+                    </tr>
+                    <tr>
+						<td>
+							<label for="" class="control-label x85">名称</label>
+						</td>
+						<td>
+							<input type="text" name="name" id="name" value="{$Umenu['name']}"  size="15">
+							<input type="hidden" name="addmenu" value="{$Umenu['id']}">
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			
+        </div>
+    </div>
+    <div class="bjui-footBar">
+        <ul>
+            <li><button type="button" class="btn-close" data-icon="close">关闭</button></li>
+			<li><button type="submit" class="btn-default" data-icon="save">保存</button></li>
+        </ul>
+    </div>
+	</form>
+</div>

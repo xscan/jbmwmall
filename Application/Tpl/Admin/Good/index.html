@@ -1,0 +1,202 @@
+<div class="bjui-pageContent">
+    <div class="pageFormContent" data-layout-h="0">
+        <div style="margin:15px; width:90%; height:90%">
+            <!-- Tabs -->
+            <ul class="nav nav-tabs" role="tablist" id="myTab">
+                <li class="active"><a href="#Good" role="tab" data-toggle="tab">商品管理</a></li>
+				<li ><a href="#AddGood" role="tab" data-toggle="tab">添加/修改商品</a></li>
+            </ul>
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div class="tab-pane fade active in" id="Good">
+					<table class="table table-bordered table-hover table-striped table-top" data-layout-h="0">
+						<thead>
+							<tr>
+								<th width="26"><input type="checkbox" class="checkboxCtrl" data-group="ids" data-toggle="icheck"></th>
+								<th data-order-field="operation">ID</th>
+								<th data-order-field="name">商品名称</th>
+								<th>商品分类</th>
+								<th>商品价格</th>
+								<th>时间</th>
+								<th width="100">操作</th>
+							</tr>
+						</thead>
+						<tbody>
+							<volist name="result" id="result">
+							<tr>
+								<td><input type="checkbox" name="ids" data-toggle="icheck" value="1"></td>
+								<td>{$result.id}</td>
+								<td>{$result.name}</td>
+								<td>{$result.menu}</td>
+								<td>{$result.price}</td>
+								<td>{$result.time}</td>
+								
+								<td>
+									<a href="#AddGood" onclick="reGood({$result.id});"  class="btn btn-green" data-toggle="tab" role="tab">编辑</a>
+									<a href="{:U('Admin/Good/delgood',array('id'=>$result['id']))}" class="btn btn-red" data-toggle="doajax" data-confirm-msg="确定要删除该行信息吗？">删</a>
+								</td>
+							</tr>
+							</volist>
+							
+						</tbody>
+					</table>
+				
+				
+				</div>
+				<div class="tab-pane fade" id="AddGood">
+					<form action="{:U('Admin/Good/addgood')}" data-toggle="validate"  method="post" enctype="multipart/form-data">
+						<table>
+							<tr>
+								<td>
+									<label for="addmenuid" class="control-label x85">商品分类:</label>
+								</td>
+								<td>
+									<select name="addmenuid" id="addmenuid" data-toggle="selectpicker">
+										<volist name="addmenu" id="addmenu">
+										<option value="{$addmenu.id}">{$addmenu.name}</option>
+										</volist>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label for="addname" class="control-label x85">商品名称:</label>
+								</td>
+								<td>
+									<input type="text" name="addname" id="addname" value=""  size="15">
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label for="addprice" class="control-label x85">商品价格:</label>
+								</td>
+								<td>
+									<input type="text" name="addprice" id="addprice" value=""  size="15">
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label for="add_old_price" class="control-label x85">商品原价:</label>
+								</td>
+								<td>
+									<input type="text" name="add_old_price" id="add_old_price" value=""  size="15">
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label for="addsort" class="control-label x85">商品排序:</label>
+								</td>
+								<td>
+									<input type="text" name="addsort" id="addsort" value=""  size="15">
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label for="addimage" class="control-label x85">商品图片:</label>
+								</td>
+								<td>
+									<div style="display:inline-block; vertical-align:middle;">
+										<div id="doc_pic_up" data-toggle="upload" data-uploader="{:U('Admin/Public/upload')}" 
+											data-file-size-limit="163840000"
+											data-file-type-exts="*.jpg;*.png;*.gif;*.mpg"
+											data-multi="true"
+											data-on-upload-success="doc_upload_success"
+											data-icon="cloud-upload"></div>
+										<input type="hidden" name="addimage" value="" id="addimage">
+									</div>
+									<span id="doc_span_pic"></span>允许的附件文件类型: jpg,gif,png,jpeg并且图片大小小于200k.
+
+									<script type="text/javascript">
+										function doc_upload_success(file, data) {
+											var json = $.parseJSON(data)
+											
+											$(this).bjuiajax('ajaxDone', json)
+											if (json[BJUI.keys.statusCode] == BJUI.statusCode.ok) {
+												$('#addimage').val(json.pic)
+												$('#doc_span_pic').html('已上传图片：<img src="'+ json.pic +'" width="100">')
+											}
+										}
+									</script>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label for="addstatus" class="control-label x85">商品状态:</label>
+								</td>
+								<td>
+									<select name="addstatus" data-toggle="selectpicker">
+									<option value="1">出售</option>
+									<option value="0">下架</option>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label for="editorValue" class="control-label x85">商品详情:</label>
+								</td>
+								<td>
+									<div style="display: inline-block; vertical-align: middle;">
+										<textarea name="editorValue" id="editorValue" class="j-content" style="width: 700px;" data-toggle="kindeditor" data-upload-json="php/upload_json.php" data-file-manager-json="php/file_manager_json.php" data-after-upload="E_afterUpload" data-after-select-file="E_afterSelectFile" data-after-select="E_afterSelect" data-minheight="200">
+											
+										</textarea>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td class="text-right">
+									
+								</td>
+								<td class="text-center">
+									<button type="submit" class="btn-default" data-icon="save">提交</button>&nbsp;
+									<button type="reset" class="btn-orange" data-icon="undo">取消</button>
+								</td>
+							</tr>
+							
+						</table>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+    <div class="bjui-footBar">
+        <ul>
+            <li><button type="button" class="btn-close" data-icon="close">关闭</button></li>
+        </ul>
+    </div>
+</div>
+
+<script type="text/javascript">
+			var flag = true;
+			function reGood(goodid) {
+				//alert(editor.text('#editorValue'));
+				//$(this).click('#a');
+				
+				$.post("{:U('Admin/Good/getgoodid')}",{"id":goodid},function(data){
+					var json = eval(data);
+					
+					$('select[name="addmenuid"]').val(json.menu_id);
+					$('input[name="addname"]').val(json.name);
+					$('input[name="addprice"]').val(json.price);
+					$('input[name="add_old_price"]').val(json.old_price);
+					$('input[name="addsort"]').val(json.sort);
+					$('input[name="addimage"]').val(json.image);
+					$('select[name="addstatus"]').val(json.status);
+					$('#editorValue').html(json.detail);
+					$(document.getElementsByTagName("iframe")[0].contentWindow.document.body).html(json.detail); 
+					
+					
+					if (flag) {
+						$('input[name="addname"]').parent().append('<input type="hidden" name="goodid" value="'+json.id+'">');
+						$('input[name="addimage"]').parent().append('<img src="__PUBLIC__/Uploads/'+json.image+'" id="goodimage" style="max-width:650px" height="200" width="200" class="img-thumbnail">');
+						flag = false;
+					}else{
+						$('input[name="goodid"]').val(json.id);
+						$('#goodimage').attr("src","__PUBLIC__/Uploads/"+json.image);
+					}
+				});
+				$('#myTab li').removeClass("active");
+				$('#myTab li').eq(1).addClass("active");
+				$('#Good').removeClass("active");
+				$('#AddGood').addClass("active");
+			}
+		</script>

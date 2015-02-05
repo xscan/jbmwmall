@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html xmlns = "http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-type" content="text/html";charset="utf-8" />
+	<meta name="viewport" content ="width=device-width,initial-scale=1" />
+    <title>{$config['num']}</title>
+    <meta name="viewport" content="width=device-width" /> 
+	<!--<script src="cordova.js"></script>  APP调用时引入--> 
+    <link rel="stylesheet" href="__PUBLIC__/jqm/jquery.mobile-1.4.5.min.css" /> 
+	<script src="__PUBLIC__/jqm/jquery-1.10.1.min.js"></script>     
+	<script src="__PUBLIC__/jqm/jquery.mobile-1.4.5.min.js"></script>
+</head>
+<body>
+	<div data-role="page" data-theme="b" id = "index">
+		<div data-role="header" data-position="fixed" data-theme="b">  
+            <h1>{$config['num']}</h1>    
+        </div>
+		<div data-role="collapsible" data-collapsed = "false" data-mini="true" data-theme="b">
+			<h4>我的信息</h4>
+			<img src="__PUBLIC__/images/jbmwxcard.jpg" style="width:80%; margin-left:10%;"/>
+			<ul data-role="listview">
+				<li>客户姓名:{$mem_info[0]['mem_name']|mb_convert_encoding = 'UTF-8','GBK'}</li>
+				<li>电话号码:{$mem_info[0]['tel_no']|mb_convert_encoding = 'UTF-8','GBK'}</li>
+				<li>会员卡号:{$mem_info[0]['mem_id']|mb_convert_encoding = 'UTF-8','GBK'}</li>
+				<li>会员卡级:{$mem_info[0]['level_name']|mb_convert_encoding = 'UTF-8','GBK'}</li>
+				<li>卡内余额:{$mem_info[0]['balance']|round = 2}</li>
+				<li>卡内积分:{$mem_info[0]['integral']|round = 2}</li>
+			</ul>
+			<ul></ul>
+		</div>
+		<p><a href="#indexitem" data-role="button" data-transition = "flip" data-theme="b">项目消费明细</a></P>
+		<p><a href="#indexware" data-role="button" data-transition = "flip" data-theme="b">产品消费明细</a></P>
+		<p><a href="#indexfund" data-role="button" data-transition = "flip" data-theme="b">资金变动明细</a></P>
+		<p><a href="#indexmemitem" data-role="button" data-transition = "flip" data-theme="b">剩余计次项目</a></P>
+		<div data-role="footer" data-position="fixed" data-theme="b">
+			<div data-role="navbar">
+				<ul>
+					<li><a id="chat" href="#" data-transition = "flip" data-icon="home">首页</a></li>        
+					<li><a id="email" href="#indexitem" data-transition = "slidedown" data-icon="arrow-r">下一项</a></li>
+					<li><a id="beer" href="#" data-icon="info">我</a></li>         
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<div data-role="page" data-theme="b" id = "indexitem">
+		<div data-role="header" data-position="fixed" data-theme="b">  
+            <h1>金博美客户平台</h1>    
+        </div>
+		<div data-role="collapsible" data-collapsed = "false" data-collapsed-icon="arrow-d" data-expanded-icon="arrow-u">
+			<h4>项目消费明细</h4>
+				<table data-role="table" id="item-table" data-mode="reflow" class="ui-responsive">
+					<thead>
+						<tr class="ui-bar-b" >
+							<th>序号</th>
+							<th>消费日期</th>
+							<th>项目名称</th>
+							<th>金额</th>
+							<th>消费类型</th>
+						</tr>
+					</thead>
+					<tbody>
+						<foreach name="doc_item" item="vo" key = "no">
+							<tr class="ui-bar-c">
+								<td>{$no + 1}</td>
+								<td>{$vo['doc_date']|msubstr = 0,10,'utf-8',false}</td>
+								<td>{$vo['item_name']|mb_convert_encoding = 'UTF-8','GBK'}</td>
+								<td>{$vo['money']}</td>
+								<td><switch name="vo['r_j']">
+									<case value="0" >不计次</case>
+									<case value="1">计次</case>
+									<case value="2">包卡</case>
+									<default />没有此信息
+								</switch></td>
+							</tr>
+						</foreach>
+					</tbody>
+			</table>
+		</div>
+		<p><a href="#index" data-role="button" data-transition = "flip">我的信息</a></P>
+		<p><a href="#indexware" data-role="button" data-transition = "flip">产品消费明细</a></P>
+		<p><a href="#indexfund" data-role="button" data-transition = "flip">资金变动明细</a></P>
+		<p><a href="#indexmemitem" data-role="button" data-transition = "flip">剩余计次项目</a></P>
+		<div data-role="footer" data-position="fixed" data-theme="b">
+			<div data-role="navbar">
+				<ul>
+					<li><a id="chat" href="#" data-icon="home">首页</a></li>        
+					<li><a id="email" href="#index" data-transition = "slideup" data-icon="arrow-l">上一项</a></li>
+					<li><a id="skull" href="#indexware" data-transition = "slidedown" data-icon="arrow-r">下一项</a></li> 
+					<li><a id="beer" href="#" data-icon="info">我</a></li>         
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<div data-role="page" data-theme="b" id = "indexware">
+		<div data-role="header" data-position="fixed" data-theme="b">  
+            <h1>金博美客户平台</h1>    
+        </div>
+		<div data-role="collapsible" data-collapsed = "false" data-collapsed-icon="arrow-d" data-expanded-icon="arrow-u">
+			<h4>产品消费明细</h4>
+			<table data-role="table" id="ware-table" data-mode="reflow" class="ui-responsive">
+				<thead>
+					<tr class="ui-bar-b">
+						<th>序号</th>
+						<th>消费日期</th>
+						<th class = "title">产品名称</th>
+						<th>金额</th>
+						<th>数量</th>
+					</tr>
+				</thead>
+				<tbody>
+					<foreach name="doc_ware" item="vo" key = "no">
+						<tr class="ui-bar-c">
+							<td>{$no + 1}</td>
+							<td>{$vo['doc_date']|msubstr = 0,10,'utf-8',false}</td>
+							<td class = "title">{$vo['ware_name']|mb_convert_encoding = 'UTF-8','GBK'}</td>
+							<td>{$vo['money']}</td>
+							<td>{$vo['amount']}</td>
+						</tr>
+					</foreach>
+				</tbody>
+			</table>
+		</div>
+		<p><a href="#index" data-role="button" data-transition = "flip">我的信息</a></P>
+		<p><a href="#indexitem" data-role="button" data-transition = "flip">项目消费明细</a></P>
+		<p><a href="#indexfund" data-role="button" data-transition = "flip">资金变动明细</a></P>
+		<p><a href="#indexmemitem" data-role="button" data-transition = "flip">剩余计次项目</a></P>
+		<div data-role="footer" data-position="fixed" data-theme="b">
+			<div data-role="navbar">
+				<ul>
+					<li><a id="chat" href="#" data-icon="home">首页</a></li>        
+					<li><a id="email" href="#indexitem" data-transition = "slideup" data-icon="arrow-l">上一项</a></li>
+					<li><a id="skull" href="#indexfund" data-transition = "slidedown" data-icon="arrow-r">下一项</a></li>
+					<li><a id="beer" href="#" data-icon="info">我</a></li>         
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<div data-role="page" data-theme="b" id = "indexfund">
+		<div data-role="header" data-position="fixed" data-theme="b">  
+            <h1>金博美客户平台</h1>    
+        </div>
+		<div data-role="collapsible" data-collapsed = "false" data-collapsed-icon="arrow-d" data-expanded-icon="arrow-u">
+			<h4>资金变动明细</h4>
+			<table data-role="table" id="menfund-table" data-mode="reflow" class="ui-responsive">
+				<thead>
+					<tr class="ui-bar-b">
+						<th>序号</th>
+						<th>日期</th>
+						<th>摘要</th>
+						<th>类型</th>
+						<th>金额/分数</th>
+					</tr>
+				</thead>
+				<tbody>
+					<foreach name="mem_fund" item="vo" key="no">
+						<tr class="ui-bar-c">
+							<td>{$no + 1}</td>
+							<td>{$vo['fund_time']|msubstr = 0,10,'utf-8',false}}</td>
+							<td>{$vo['mem']|mb_convert_encoding = 'UTF-8','GBK'}</td>
+							<td><switch name="vo['fund_type']">
+							<case value="-1" >消费</case>
+							<case value="1" >存款</case>
+							<case value="5">退卡退余额</case>
+							<case value="3">转卡</case>
+							<case value="4">开户押金</case>
+							<case value="7">退卡退押金</case>
+							<case value="8">存款优惠</case>
+							<case value="9">积分消费</case>
+							<case value="10">补卡</case>
+							<case value="11">存款积分</case>
+							<case value="12">会员转账</case>
+							<case value="13">欠款</case>
+							<case value="14">还款</case>
+							<case value="30">项目转卡</case>
+							<case value="99">手工增加积分</case>
+							<default />未知类型
+			  			  </switch></td>
+							<td>{$vo['item2']|mb_convert_encoding = 'UTF-8','GBK'}</td>
+						</tr>
+					</foreach>
+				</tbody>
+			</table>
+		</div>
+		<p><a href="#index" data-role="button" data-transition = "flip">我的信息</a></P>
+		<p><a href="#indexitem" data-role="button" data-transition = "flip">项目消费明细</a></P>
+		<p><a href="#indexware" data-role="button" data-transition = "flip">产品消费明细</a></P>
+		<p><a href="#indexmemitem" data-role="button" data-transition = "flip">剩余计次项目</a></P>
+		<div data-role="footer" data-position="fixed" data-theme="b">
+			<div data-role="navbar">
+				<ul>
+					<li><a id="chat" href="#" data-icon="home">首页</a></li>        
+					<li><a id="email" href="#indexware" data-transition = "slideup" data-icon="arrow-l">上一项</a></li>
+					<li><a id="skull" href="#indexmemitem" data-transition = "slidedown" data-icon="arrow-r">下一项</a></li>        
+					<li><a id="beer" href="#" data-icon="info">我</a></li>         
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<div data-role="page" data-theme="b" id = "indexmemitem">
+		<div data-role="header" data-position="fixed" data-theme="b">  
+            <h1>金博美客户平台</h1>    
+        </div>
+		<div data-role="collapsible" data-collapsed = "false" data-collapsed-icon="arrow-d" data-expanded-icon="arrow-u">
+			<h4>剩余计次项目</h4>
+			<table data-role="table" id="memitem-table" data-mode="reflow" class="ui-responsive">
+				<thead>
+					<tr class="ui-bar-b">
+						<th>序号</th>
+						<th>项目名称</th>
+						<th>余次</th>
+						<th>有效期</th>
+					</tr>
+				</thead>
+				<tbody>
+					<foreach name="mem_item" item="vo" key="no">
+						<tr class="ui-bar-c">
+							<td>{$no + 1}</td>
+							<td>{$vo['item_name']|mb_convert_encoding = 'UTF-8','GBK'}</td>
+							<td>{$vo['num']|mb_convert_encoding = 'UTF-8','GBK'}</td>
+							<td>{$vo['last_time']|msubstr = 0,10,'utf-8',false}</td>
+						</tr>
+					</foreach>
+				</tbody>
+			</table>
+		</div>
+		<p><a href="#index" data-role="button" data-transition = "flip">我的信息</a></P>
+		<p><a href="#indexitem" data-role="button" data-transition = "flip">项目消费明细</a></P>
+		<p><a href="#indexware" data-role="button" data-transition = "flip">产品消费明细</a></P>
+		<p><a href="#indexfund" data-role="button" data-transition = "flip">资金变动明细</a></P>
+		<div data-role="footer" data-position="fixed" data-theme="b">
+			<div data-role="navbar">
+				<ul>
+					<li><a id="chat" href="#" data-icon="home">首页</a></li>        
+					<li><a id="email" href="#indexfund" data-transition = "slideup" data-icon="arrow-l">上一项</a></li>
+					<li><a id="skull" href="#index" data-transition = "slidedown" data-icon="arrow-r">下一项</a></li>
+					<li><a id="beer" href="#" data-icon="info">我</a></li>         
+				</ul>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

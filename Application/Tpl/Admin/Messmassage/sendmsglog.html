@@ -1,0 +1,62 @@
+
+<div class="list-group">
+    <div class="list-group-item">
+        <form action="{:U('Admin/Messmassage/loopsendmsglog')}" method="post" class="pageForm" data-toggle="validate" data-callback="loopsendlog">
+        起始日期：<input type="text" data-toggle="datepicker" data-pattern="yyyy-MM-dd 00:00:00" value="{$date} 00:00:00" name="startdate">
+        &nbsp;
+        终止日期：<input type="text" data-toggle="datepicker" data-pattern="yyyy-MM-dd 23:59:59" value="{$date} 23:59:59" name="enddate"> 
+        &nbsp;
+        <input type="submit" class="btn btn-green" value = "查询"></input >
+    </div>
+</div>
+ <table class="table table-hover table-striped table-bordered">
+  <thead class="text-center">
+                            <tr>
+                                <th >序号</th>
+                                <th >消息内容</th>
+                                <th >消息类型</th>
+                                <th>发送人</th>
+                                <th>接收人</th>
+                                <th>发送端</th>
+                                <th>发送状态</th>
+                                <th>公众号名称</th>
+                                <th>发送时间</th>
+                            </tr>
+                        </thead>
+                           <tbody id="loopcontent">
+                            <foreach name="sendmsglog" item="vo">
+                                <tr>
+                                    <td > {++$i} </td>
+                                    <td>{$vo.content}</td>
+                                    <td>
+                                      <if condition="$vo.type eq TEXT">文本<else /> 无类型 </if>
+                                    </td>
+                                    <td>
+                                        {$vo.send_name}
+                                    </td>
+                                    <td>
+                                        {$vo.rev_name}
+                                    </td>
+                                    <td>
+                                        <if condition="$vo.msg_type eq 0">微信<else />短信</if>
+                                    </td>
+                                    <td>
+                                        <if condition="$vo.send_start eq 0">已发送<else />未发送</if>
+                                    </td>
+                                    <td>{$vo.wx_name}</td>
+                                    <td>{$vo.send_time}</td>
+                                </tr>
+                            </foreach>
+                        </tbody>
+</table>
+
+<ul class="list-group">
+<li class="list-group-item">{$page}</li>
+</ul>
+<script type="text/javascript">
+function loopsendlog(data)
+{
+   // console.log(data);
+   $('#loopcontent').html(data);
+}     
+</script>

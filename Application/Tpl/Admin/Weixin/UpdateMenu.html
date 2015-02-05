@@ -1,0 +1,129 @@
+<div class="bjui-pageContent">
+    <form action="{:U('Admin/Weixin/UpdateMenu')}" data-toggle="validate" data-callback="callback" method="post">
+        <div class="pageFormContent" data-layout-h="0">
+            <table class="table table-condensed table-hover">
+                <tbody>
+                    <tr>
+                        <td colspan="2" align="center"><h3>修改菜单</h3></td>
+                    </tr>
+                    <tr>
+						<td>
+							<label for="" class="control-label x85">级别:</label>
+						</td>
+						<td>
+							<select name="pid" id="pid1" data-toggle="selectpicker">
+								<option value="0" <if condition="$UMenu['pid'] eq 0">selected="true"</if> >作为一级菜单</option>
+								<option value="1" <if condition="$UMenu['pid'] eq 1">selected="true"</if> >作为二级菜单</option>
+							</select>
+						</td>
+					</tr>
+					<tr id="sjmenu1" <if condition="$UMenu['pid'] eq 0">style="display:none"</if>  >
+						<td>
+							<label for="" class="control-label x85">上级菜单:</label>
+						</td>
+						<td>
+							<select name="status" data-toggle="selectpicker">
+								<foreach name="sjmenu" item="v">
+								<option value="{$v.menu_id}" <if condition="$UMenu['status'] eq $v['menu_id']">selected="true"</if>  >{$v.menu_name}</option>
+								</foreach>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="menu_name" class="control-label x85">显示名称:</label>
+						</td>
+						<td>
+							<input type="text" name="menu_name" id="menu_name" value="{$UMenu['menu_name']}"  size="15">
+							<input type="hidden" name="menu_id" value="{$UMenu['menu_id']}" id="menu_id" >
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="menu_type" class="control-label x85">类型:</label>
+						</td>
+						<td>
+							<select id="Umenu_type" name="menu_type" data-toggle="selectpicker">
+								<option value="view" <if condition="$UMenu['menu_type'] eq 'view'">selected="true"</if> >超链接</option>
+								<option value="click" <if condition="$UMenu['menu_type'] eq 'click'">selected="true"</if> >点击事件</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="view_url" class="control-label x85">URL:</label>
+						</td>
+						<td>
+							<textarea name="view_url" id="Uview_url" data-toggle="autoheight" cols="20" rows="3">{$UMenu['view_url']}</textarea>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="event_key" class="control-label x85">点击事件key:</label>
+						</td>
+						<td>
+							<input type="text" name="event_key" id="Uevent_key" value="{$UMenu['event_key']}"  size="15">
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="listorder" class="control-label x85">排序:</label>
+						</td>
+						<td>
+							<input type="text" name="listorder" id="listorder" value="{$UMenu['listorder']}"  size="15">
+						</td>
+					</tr>
+                    
+                    
+                </tbody>
+            </table>
+        </div>
+        <div class="bjui-footBar">
+            <ul>
+                <li><button type="button" class="btn-close">关闭</button></li>
+                <li><button type="submit" class="btn-default" onClick="return checknull()">保存</button></li>
+            </ul>
+        </div>
+    </form>
+</div>
+
+<script type="text/javascript">
+	$('#pid1').change(function(){
+		var pid = $('#pid1').val();
+		if(pid == 1){
+			$("#sjmenu1").show();
+		}else{
+			$("#sjmenu1").hide();
+		}
+	});
+	
+	/*$("#Umenu_type").change(function(){
+		if($("#Umenu_type").val() == "view"){
+			$("#Uevent_key").removeAttr("data-rule");
+			$("#Uview_url").attr("data-rule","required");
+			alert("11");
+		}else{
+			$("#Uview_url").removeAttr("data-rule");
+			$("#Uevent_key").attr("data-rule","required");
+			alert("22");
+		}
+	});*/
+	
+	function checknull(){
+		var Umenu_type = $("#Umenu_type").val();
+		var Uview_url = $("#Uview_url").val();
+		var Uevent_key = $("#Uevent_key").val();
+		if(Umenu_type == "view" ){
+			if(Uview_url == "" || Uview_url == NULL){
+				alert("URL地址不能为空！");
+				return false;
+			}
+		}
+		if(Umenu_type == "click" ){
+			if(Uevent_key == ""){
+				alert("点击事件key不能为空！");
+				return false;
+			}
+		}
+	}
+</script>

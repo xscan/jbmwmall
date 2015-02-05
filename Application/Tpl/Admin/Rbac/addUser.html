@@ -1,0 +1,50 @@
+<div class="bjui-pageContent">
+	<form action="{:U('Admin/Rbac/addUserHandle')}" data-toggle="validate" method="post" data-callback="callback">
+    <div class="pageFormContent" data-layout-h="0">
+        <div class="bjui-doc">
+			<h3 class="page-header text-center">用户管理</h3>
+			
+            <table class="table table-condensed table-hover">
+                <tbody>
+					<tr>
+						<td><label for="username" class="control-label x85">用户名：</label></td>
+						<td><input type="text" name="username" id="username" value="{$user.username}"  size="15"></td>
+					</tr>
+                    <tr>
+						<td>
+							<label for="password" class="control-label x85">密码：</label>
+						</td>
+						<td>
+							<input type="password" name="password" id="password" value="{$user.password}"  size="15">
+							<input type="hidden" name="id" value="{$user.id}">
+						</td>
+					</tr>
+					<tr>
+                        <td><label for="" class="control-label x85">选择角色:</label></td>
+						<td><select name="role_id" class="normal_select" data-toggle="selectpicker">
+							<foreach name="role" item="v">
+							<option value="{$v['id']}" <if condition="$role_id['role_id'] eq $v['id']" >selected="selected"</if> >{$v.name}({$v.remark})</option>
+							</foreach>
+						</select></td>
+                    </tr>
+					<tr>
+                        <td><label for="" class="control-label x85">状态:</label></td>
+						<td><select name="status" class="normal_select" data-toggle="selectpicker">
+							<option value="1" <if condition="$user['status'] eq 1">selected="selected"</if> >启用</option>
+							<option value="0" <if condition="$user['status'] eq 0">selected="selected"</if> >禁用</option>
+							
+						</select></td>
+                    </tr>
+				</tbody>
+			</table>
+			
+        </div>
+    </div>
+    <div class="bjui-footBar">
+        <ul>
+            <li><button type="button" class="btn-close" data-icon="close">关闭</button></li>
+			<li><button type="submit" data-refresh="Menu" class="btn-default" data-icon="save">保存</button></li>
+        </ul>
+    </div>
+	</form>
+</div>
